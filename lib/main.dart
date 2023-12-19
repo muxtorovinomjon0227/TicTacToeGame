@@ -38,7 +38,7 @@ class _MyAppState extends State<MyApp>{
           upgrader: Upgrader(
               canDismissDialog: true,
               shouldPopScope: () => true,
-              cupertinoButtonTextStyle: GoogleFonts.lato(
+              cupertinoButtonTextStyle: GoogleFonts.sacramento(
                   textStyle: Theme.of(context).textTheme.bodyMedium,
                   fontSize: 14,
                   fontWeight: FontWeight.w600,

@@ -18,7 +18,7 @@ class BigText extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       text,
-      style: GoogleFonts.lato(
+      style: GoogleFonts.sacramento(
         textStyle: Theme.of(context).textTheme.bodyMedium,
         fontSize: size,
         fontWeight: fontWidget,

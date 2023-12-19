@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:tictacgame/src/constants/colors_const.dart';
+import 'package:tictacgame/src/widgets/small_text.dart';
 import '../../service/routes/routes_name.dart';
 import '../../src/widgets/big_text_widget.dart';
+import '../../src/widgets/custom_loading/customloading.dart';
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
 
@@ -24,11 +27,11 @@ class _SplashScreenState extends State<SplashScreen>
 
   init() {
     _animatedController =
-    AnimationController(duration: const Duration(seconds: 2), vsync: this)
+    AnimationController(duration: const Duration(seconds: 3), vsync: this)
       ..forward()
       ..addStatusListener((status) async {
         if (status == AnimationStatus.completed)   {
-          Navigator.of(context).pushReplacementNamed(MainRoutes.HomePage);
+          Navigator.of(context).pushReplacementNamed(MainRoutes.my_main_page);
         }
       });
     _curvedAnimation =
@@ -51,34 +54,47 @@ class _SplashScreenState extends State<SplashScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
-      body: Center(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Align(
-              child: ScaleTransition(
-                scale: Tween(begin: 0.8, end: 1.0).animate(_curvedAnimation),
-                child: SizedBox(
-                  width: 250,
-                  height: 250,
-                  child:
-                  Image.asset('assets/TicTacToe.png', fit: BoxFit.fill),
+      body: Container(
+        decoration:  const BoxDecoration(
+            gradient:  LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: [
+                ColorConst.dashboardCardColorBlue,
+                ColorConst.appBackgroundColor,
+                ColorConst.callAvatarBeckColor
+              ],
+            )),
+        child: Center(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              const Spacer(),
+              const Spacer(),
+              ScaleTransition(
+                  scale: Tween(begin: 0.8, end: 1.0).animate(_curvedAnimation),
+                  child: SizedBox(
+                    width: 250,
+                    height: 250,
+                    child:
+                    Image.asset('assets/TicTacToe.png', fit: BoxFit.fill),
+                  ),
                 ),
+              const BigText(text: "TicTacToe",fontWidget: FontWeight.bold,size: 38,color: ColorConst.whiteColor),
+              const Spacer(),
+              Stack(
+                children: [
+                  CustomLoading(),
+                   const Positioned(
+                    top: 30,
+                    right: 60,
+                    child:  BigText(text: "Loading...",size: 25, color: ColorConst.whiteColor,),)
+                ],
               ),
-            ),
-            const BigText(text: "AloVoice",fontWidget: FontWeight.bold),
-            visibleButton
-                ? Container(
-              margin: const EdgeInsets.symmetric(
-                  horizontal: 48, vertical: 18),
-              child: TextButton(
-                onPressed: () {},
-                child: const Text("Something"),
-              ),
-            )
-                : Container(),
-          ],
+              const SizedBox(height: 30),
+            ],
+          ),
         ),
       ),
     );

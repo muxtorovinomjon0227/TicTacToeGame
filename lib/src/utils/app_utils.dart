@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hive_flutter/adapters.dart';
@@ -32,8 +33,8 @@ class AppUtils {
                           onTap: () {
                             Navigator.of(context).pop(true);
                           },
-                          child: Padding(
-                            padding: const EdgeInsets.only(right: 8.0, top: 8),
+                          child: const Padding(
+                            padding: EdgeInsets.only(right: 8.0, top: 8),
                             child: Icon(Icons.cancel,
                                 color: ColorConst.appBackgroundColor),
                           ),
@@ -64,7 +65,7 @@ class AppUtils {
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(8),
                             color: ColorConst.appBackgroundColor),
-                        child: SmallText(
+                        child: const SmallText(
                           text: "ok",
                           size: 16,
                           fontWidget: FontWeight.w600,
@@ -89,6 +90,10 @@ class AppUtils {
     }
   }
 
+  static Widget buttonLoader =  const CupertinoActivityIndicator(
+    radius: 20,
+    color: ColorConst.whiteColor,
+  );
 
 
 
