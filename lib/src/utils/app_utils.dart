@@ -5,8 +5,21 @@ import 'package:hive_flutter/adapters.dart';
 import '../../service/routes/routes_name.dart';
 import '../constants/colors_const.dart';
 import '../widgets/small_text.dart';
+import 'package:audioplayers/audioplayers.dart';
 
 class AppUtils {
+
+  static Future playAudio() async {
+    final player = AudioPlayer();
+    player.play(AssetSource('mouse-click-153941.mp3'));
+
+  }
+
+  static Future playAudioCard() async {
+    final player = AudioPlayer();
+    player.play(AssetSource('button-124476.mp3'));
+
+  }
 
   static final box = Hive.box('FlutterGameBox');
 
@@ -120,5 +133,4 @@ class AppUtils {
     );
     ScaffoldMessenger.of(context).showSnackBar(snackdemo);
   }
-
 }

@@ -4,6 +4,7 @@ import 'package:tictacgame/src/widgets/big_text_widget.dart';
 import 'package:tictacgame/views/home_view/result_card.dart';
 import '../../custom_dailog.dart';
 import '../../src/constants/colors_const.dart';
+import '../../src/utils/app_utils.dart';
 import '../../src/widgets/column_button_widget.dart';
 import '../../src/widgets/game_button.dart';
 
@@ -47,6 +48,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   void playGame(GameButton gb) {
+    AppUtils.playAudioCard();
     setState(() {
       if (activePlayer == 1) {
         gb.text = "X";
@@ -72,19 +74,20 @@ class _HomePageState extends State<HomePage> {
   }
 
   void autoPlay() {
-    var emptyCells = [];
-    var list = List.generate(9, (i) => i + 1);
-    for (var cellID in list) {
-      if (!(player1.contains(cellID) || player2.contains(cellID))) {
-        emptyCells.add(cellID);
-      }
-    }
-
-    var r = Random();
-    var randIndex = r.nextInt(emptyCells.length - 1);
-    var cellID = emptyCells[randIndex];
-    int i = buttonsList.indexWhere((p) => p.id == cellID);
-    playGame(buttonsList[i]);
+     Future.delayed(const Duration(seconds: 1), () {
+       var emptyCells = [];
+       var list = List.generate(9, (i) => i + 1);
+       for (var cellID in list) {
+         if (!(player1.contains(cellID) || player2.contains(cellID))) {
+           emptyCells.add(cellID);
+         }
+       }
+       var r = Random();
+       var randIndex = r.nextInt(emptyCells.length - 1);
+       var cellID = emptyCells[randIndex];
+       int i = buttonsList.indexWhere((p) => p.id == cellID);
+       playGame(buttonsList[i]);
+    });
   }
 
   int checkWinner() {
@@ -163,6 +166,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   void resetGame() {
+    AppUtils.playAudio();
     setState(() {
       buttonsList = doInit();
     });
@@ -172,6 +176,7 @@ class _HomePageState extends State<HomePage> {
     showDialog(
         context: context,
         builder: (_) =>  CustomDialog(title: title, content: "Press the reset button to start again.", actionText: 'Reset', onPressed: () {
+          AppUtils.playAudio();
           setState(() {
             buttonsList = doInit();
           });
@@ -187,7 +192,10 @@ class _HomePageState extends State<HomePage> {
           iconTheme: const IconThemeData(color: ColorConst.whiteColor),
           leading: ModalRoute.of(context)!.canPop
               ? IconButton(
-                  onPressed: () => Navigator.pop(context),
+                  onPressed: () {
+                    AppUtils.playAudio();
+                    Navigator.pop(context);
+                    },
                   icon: Image.asset(
                     "assets/back.png",
                     color: ColorConst.whiteColor,
@@ -229,29 +237,37 @@ class _HomePageState extends State<HomePage> {
            const SizedBox(height: 30),
             const ResultCard(),
             const SizedBox(height: 30),
-            Expanded(
-              child: GridView.builder(
-                padding: const EdgeInsets.all(10.0),
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+            Flexible(
+              child: Container(
+                margin: const EdgeInsets.symmetric(horizontal: 8),
+                decoration: BoxDecoration(
+                  color: ColorConst.blueColor,
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: GridView.builder(
+                  padding: const EdgeInsets.all(10.0),
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 3,
                     childAspectRatio: 1.0,
                     crossAxisSpacing: 9.0,
-                    mainAxisSpacing: 9.0),
-                itemCount: buttonsList.length,
-                itemBuilder: (context, i) => SizedBox(
-                  width: 100.0,
-                  height: 100.0,
-                  child: ColumnButtonWidget(
-                    function: buttonsList[i].enabled
-                        ? () => playGame(buttonsList[i])
-                        : (){},
-                    text: buttonsList[i].text,
-                    icon: const Icon(Icons.add),
-                    color: Colors.yellow,
+                    mainAxisSpacing: 9.0,
+                  ),
+                  itemCount: buttonsList.length,
+                  itemBuilder: (context, i) => SizedBox(
+                    height: 100.0,
+                    width: 100.0,
+                    child: ColumnButtonWidget(
+                      function: buttonsList[i].enabled
+                          ? () => playGame(buttonsList[i])
+                          : () {},
+                      text: buttonsList[i].text,
+                      color: Colors.yellow,
+                    ),
                   ),
                 ),
               ),
             ),
+
           ],
         ));
   }
