@@ -32,7 +32,7 @@ class _MyAppState extends State<MyApp>{
         theme: ThemeData(
           textTheme: GoogleFonts.latoTextTheme(),
         ),
-        title: 'Game App',
+        title: 'TicTacToe',
         navigatorKey: MyApp.navigationService.navigatorKey,
         home: UpgradeAlert(
           upgrader: Upgrader(

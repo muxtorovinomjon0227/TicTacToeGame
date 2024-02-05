@@ -9,6 +9,10 @@ import 'package:audioplayers/audioplayers.dart';
 
 class AppUtils {
 
+
+  static const String policyUrl = "https://www.termsfeed.com/live/dc3be405-be9b-4c1a-90c0-0678fdcc4829";
+
+
   static Future playAudio() async {
     final player = AudioPlayer();
     player.play(AssetSource('mouse-click-153941.mp3'));

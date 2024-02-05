@@ -1,5 +1,6 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:tictacgame/src/extension/context_extensions.dart';
 import 'package:tictacgame/src/widgets/big_text_widget.dart';
 import 'package:tictacgame/views/home_view/result_card.dart';
 import '../../custom_dailog.dart';
@@ -210,9 +211,9 @@ class _HomePageState extends State<HomePage> {
           centerTitle: true,
           actions: [
             IconButton(
-                onPressed: resetGame,
+                onPressed: (){},
                 icon: Image.asset(
-                  "assets/restart.png",
+                  "assets/settings.png",
                   color: ColorConst.whiteColor,
                 ))
           ],
@@ -226,48 +227,47 @@ class _HomePageState extends State<HomePage> {
                   begin: FractionalOffset(0.0, 0.0),
                   end: FractionalOffset(1.0, 0.0),
                   stops: [0.0, 1.0],
-                  tileMode: TileMode.clamp),
+                  tileMode: TileMode.mirror),
             ),
           ),
         ),
         body: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
            const SizedBox(height: 30),
             const ResultCard(),
             const SizedBox(height: 30),
-            Flexible(
-              child: Container(
-                margin: const EdgeInsets.symmetric(horizontal: 8),
-                decoration: BoxDecoration(
-                  color: ColorConst.blueColor,
-                  borderRadius: BorderRadius.circular(10),
+            Container(
+              margin: const EdgeInsets.symmetric(horizontal: 8),
+              decoration: BoxDecoration(
+                color: ColorConst.blueColor,
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: GridView.builder(
+                scrollDirection: Axis.vertical,
+                shrinkWrap: true,
+                padding: const EdgeInsets.all(10.0),
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 3,
+                  childAspectRatio: 1.0,
+                  crossAxisSpacing: 9.0,
+                  mainAxisSpacing: 9.0,
                 ),
-                child: GridView.builder(
-                  padding: const EdgeInsets.all(10.0),
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 3,
-                    childAspectRatio: 1.0,
-                    crossAxisSpacing: 9.0,
-                    mainAxisSpacing: 9.0,
-                  ),
-                  itemCount: buttonsList.length,
-                  itemBuilder: (context, i) => SizedBox(
-                    height: 100.0,
-                    width: 100.0,
-                    child: ColumnButtonWidget(
-                      function: buttonsList[i].enabled
-                          ? () => playGame(buttonsList[i])
-                          : () {},
-                      text: buttonsList[i].text,
-                      color: Colors.yellow,
-                    ),
+                itemCount: buttonsList.length,
+                itemBuilder: (context, i) => SizedBox(
+                  height: 100.0,
+                  width: 100.0,
+                  child: ColumnButtonWidget(
+                    function: buttonsList[i].enabled
+                        ? () => playGame(buttonsList[i])
+                        : () {},
+                    text: buttonsList[i].text,
+                    color: ColorConst.whiteColor,
                   ),
                 ),
               ),
             ),
-
+            SizedBox(height: context.h*0.05),
+           IconButton(onPressed: resetGame, icon: Image.asset("assets/restart.png",color: ColorConst.callConnectColor,width: 50),)
           ],
         ));
   }
